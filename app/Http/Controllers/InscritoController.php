@@ -8,11 +8,55 @@ use Illuminate\Http\Request;
 use App\Models\InscritoLocal;
 use Illuminate\Support\Facades\DB;
 use App\Models\InscritoCarrera;
+
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\InscritoFacultad;
+use App\Imports\FacultadImport;
+use App\Models\CargarExcel;
+use App\Imports\CargarExcelImport;
 
 
 class InscritoController extends Controller
 {
+
+    public function poblar()
+    {
+        $data = CargarExcel::all();
+
+    // Pasar los datos a la vista
+        return view('inscrito.cargar_excel', ['data' => $data]);
+    }
+
+    public function cargarExcel(Request $request)
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        Excel::import(new CargarExcelImport, $request->file('archivo'));
+
+        return redirect()->back()->with('success', 'Archivo importado exitosamente!');
+    }
+
+
+    public function excel()
+    {
+        $data = InscritoFacultad::select('FACULTAD', '_INS')->get();
+
+    // Pasar los datos a la vista
+        return view('inscrito.excel', ['data' => $data]);
+    }
+
+    public function importar(Request $request)
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        Excel::import(new FacultadImport, $request->file('archivo'));
+
+        return redirect()->back()->with('success', 'Archivo importado exitosamente!');
+    }
 
     // public function inscrito()
     // {  
@@ -77,7 +121,7 @@ class InscritoController extends Controller
         return view('inscrito.facultad', ['data' => $data]);
     }
 
-
+    
 
     
 

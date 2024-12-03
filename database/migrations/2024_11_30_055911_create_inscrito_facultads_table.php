@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('inscrito_facultads', function (Blueprint $table) {
             $table->id();
 
-
             $table->string('FACULTAD');
-            $table->integer('_INS');
+            $table->string('_INS');
 
             $table->timestamps();
         });

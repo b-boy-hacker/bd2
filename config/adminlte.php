@@ -338,22 +338,106 @@ return [
         //     'url' => 'admin/settings',
         //     'icon' => 'fas fa-fw fa-lock',
         // ],
+        // [
+        //     'text' => 'Inscritos',
+        //     'icon' => 'fas fa-fw fa-share',
+        //     'submenu' => [
+                // [
+                //     'text' => 'por localidad',
+                //     'url' => '/inscrito',
+                // ],                
+                // [
+                //     'text' => 'por carrera',
+                //     'url' => 'carrera',
+                // ],
+                // [
+                //     'text' => 'por facultad',
+                //     'url' => 'facultad',
+                // ],
+                // [
+                //     'text' => 'importar excel',
+                //     'url' => 'excel',
+                // ],
+        //         [
+        //             'text' => 'cargar excel',
+        //             'url' => 'poblar',
+        //         ],
+        //     ],
+        // ],
+
         [
-            'text' => 'Inscritos',
+            'text' => 'CARGAR EXCEL',
+            'url' => 'poblar',
+        ],
+
+        [
+            'text' => 'LOCALIDAD',
             'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'por localidad',
-                    'url' => '/inscrito',
+                    'text' => 'Estudiantes inscritos',
+                    'url' => '/local_ins',
                 ],                
+                
+            ],
+        ],
+
+        [
+            'text' => 'CARRERA',
+            'icon' => 'fas fa-fw fa-share',
+            'submenu' => [
                 [
-                    'text' => 'por carrera',
-                    'url' => 'carrera',
-                ],
+                    'text' => 'Estudiantes inscritos',
+                    'url' => '/carrera_ins',
+                ],  
                 [
-                    'text' => 'por facultad',
-                    'url' => 'facultad',
-                ],
+                    'text' => 'PPAC',
+                    'url' => '/ppac',
+                ],                
+                
+            ],
+        ],
+
+        [
+            'text' => 'FACULTAD',
+            'icon' => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'Estudiantes inscritos',
+                    'url' => '/facultad_ins',
+                ], 
+
+                [
+                    'text' => 'Promedio Ponderado Acumalado',
+                    'url' => '/facultad_ppac',
+                ], 
+
+                [
+                    'text' => 'Estudiantes titulados',
+                    'url' => '/facultad_titulados',
+                ],  
+                [
+                    'text' => 'Estudiantes egresados',
+                    'url' => '/facultad_egresados',
+                ], 
+                [
+                    'text' => 'Estudiantes desertados',
+                    'url' => '/facultad_desertados',
+                ], 
+                [
+                    'text' => 'Redimiento academico',
+                    'url' => '/facultad_rendimiento',
+                ],                                          
+            ],
+        ],
+        [
+            'text' => 'MODALIDAD',
+            'icon' => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'Estudiantes inscritos',
+                    'url' => '/modalidad_ins',
+                ],                                           
             ],
         ],
 
