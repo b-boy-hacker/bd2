@@ -14,7 +14,7 @@ class ModalidadController extends Controller
     public function modalidad_ins()
     {        
     
-        $modalidades = CargarExcel::select('MODALIDAD_T', DB::raw('COUNT(_INS) as total_inscritos'))
+        $modalidades = CargarExcel::select('MODALIDAD_T', DB::raw('COUNT("_INS") as total_inscritos'))
             ->groupBy('MODALIDAD_T')
             ->get();
 
