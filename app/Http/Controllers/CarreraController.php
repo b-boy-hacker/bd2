@@ -38,10 +38,11 @@ class CarreraController extends Controller
     {
          // Obtener datos agrupados por carrera
          $carreras = DB::table('cargar_excels')
-        ->select('CARRE_NOMBRE_CARRERA', DB::raw('COUNT("_INS") as total_inscritos'))
+        ->select('CARRE_NOMBRE_CARRERA', DB::raw('SUM(CAST("_INS" AS NUMERIC)) as total_inscritos'))
         ->groupBy('CARRE_NOMBRE_CARRERA')
         ->get();
-     
+        // dd($carreras);
+        // return $carreras;
         return view('carrera.inscrito', compact('carreras'));
     }
 
