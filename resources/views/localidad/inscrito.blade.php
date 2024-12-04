@@ -63,32 +63,45 @@
 @stop
 
 @section('js')
-    <!-- Resources -->
+    <!-- Scripts para amCharts -->
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-    <!-- Chart code -->
     <script>
         am5.ready(function() {
+            // Crear el contenedor del gráfico
             var root = am5.Root.new("chartdiv");
+
+            // Establecer temas
             root.setThemes([am5themes_Animated.new(root)]);
+
+            // Crear el gráfico XY
             var chart = root.container.children.push(am5xy.XYChart.new(root, {
                 panX: true,
                 panY: true,
                 wheelX: "panX",
                 wheelY: "zoomX",
-                pinchZoomX: true
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 1
             }));
 
+            // Add cursor
             var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
             cursor.lineY.set("visible", false);
+            
+            // Crear los ejes
+            var xRenderer = am5xy.AxisRendererX.new(root, { 
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
 
-            var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
             xRenderer.labels.template.setAll({
-                rotation: -45,
+                rotation: -90,
                 centerY: am5.p50,
-                centerX: am5.p100
+                centerX: am5.p100,
+                paddingRight: 15
             });
 
             var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
@@ -98,41 +111,47 @@
             }));
 
             var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {})
+                renderer: am5xy.AxisRendererY.new(root, { strokeOpacity: 0.1 })
             }));
 
+            // Crear la serie de barras
             var series = chart.series.push(am5xy.ColumnSeries.new(root, {
                 name: "Inscritos",
                 xAxis: xAxis,
                 yAxis: yAxis,
                 valueYField: "total_inscritos",
                 categoryXField: "LOCALIDAD",
-                tooltip: am5.Tooltip.new(root, { labelText: "{valueY}" })
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}%"
+                })
             }));
 
-            series.columns.template.setAll({
-                cornerRadiusTL: 5,
-                cornerRadiusTR: 5
-            });
-
             series.columns.template.adapters.add("fill", function(fill, target) {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
+                const index = series.columns.indexOf(target);
+                const colors = ["#ff5733", "#33c1ff", "#7aff33", "#ff33a8", "#f2ff33", "#33ff57"];
+                return colors[index % colors.length];
             });
 
-            series.columns.template.adapters.add("stroke", function(stroke, target) {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
-            });
+            // Set de los datos dinámicos
+            var data = @json($localidades->map(function ($item) {
+                return [
+                    'LOCALIDAD' => $item->LOCALIDAD,
+                    'total_inscritos' => floatval($item->total_inscritos),
+                ];
+            }));
 
-            // Set data dynamically from backend
-            var data = @json($localidades);
+            // Asignar los datos a los ejes
             xAxis.data.setAll(data);
             series.data.setAll(data);
 
+            // Animar el gráfico
             series.appear(1000);
             chart.appear(1000, 100);
         });
     </script>
 @stop
+
+
 
 {{-- ------------------------------------------------------ --}}
 {{-- @extends('adminlte::page')
